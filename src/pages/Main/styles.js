@@ -36,11 +36,11 @@ export const Form = styled.form`
 
 const animate = keyframes`
   from {
-    transform: rotate(0deg)
+    transform: rotate(0deg);
   }
   
   to {
-    transform: rotate(360deg)
+    transform: rotate(360deg);
   }
   `;
 
@@ -69,4 +69,36 @@ export const SubmitButton = styled.button.attrs((props) => ({
         animation: ${animate} 2s linear infinite;
       }
     `}
+`;
+
+export const List = styled.ul`
+  list-style: none;
+  margin-top: 20px;
+
+  li {
+    padding: 15px 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    & + li {
+      border-top: 1px solid #ddd;
+    }
+
+    a {
+      color: #282a36;
+    }
+  }
+`;
+
+export const DeleteButton = styled.button.attrs({
+  type: 'button'
+})`
+  background: transparent;
+  color: #282a36;
+  border: 0;
+  padding: 8px 7px;
+  outline: 0;
+  border-radius: 4px;
 `;
