@@ -42,7 +42,7 @@ export default function Main() {
   const handleDelete = useCallback(
     (repo) => {
       const find = repositories.filter(
-        (filteredRepo) => repo.name !== filteredRepo
+        (filteredRepo) => filteredRepo.name !== repo
       );
 
       setRepositories(find);

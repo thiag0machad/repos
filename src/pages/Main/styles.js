@@ -48,7 +48,7 @@ export const SubmitButton = styled.button.attrs((props) => ({
   type: 'submit',
   disabled: props.loading
 }))`
-  background: #282a36;
+  background: #ff79c6;
   border: 0;
   border-radius: 4px;
   margin-left: 10px;
@@ -87,7 +87,7 @@ export const List = styled.ul`
     }
 
     a {
-      color: #282a36;
+      color: #ff79c6;
     }
   }
 `;
@@ -96,7 +96,7 @@ export const DeleteButton = styled.button.attrs({
   type: 'button'
 })`
   background: transparent;
-  color: #282a36;
+  color: #ff79c6;
   border: 0;
   padding: 8px 7px;
   outline: 0;
