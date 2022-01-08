@@ -1,12 +1,25 @@
 import { Container, Form, SubmitButton, List, DeleteButton } from './styles';
 import { FaGithub, FaPlus, FaSpinner, FaBars, FaTrash } from 'react-icons/fa';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import api from '../../services/api';
 
 export default function Main() {
   const [newRepo, setNewRepo] = useState('');
   const [repositories, setRepositories] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [alert, setAlert] = useState(null);
+
+  useEffect(() => {
+    const repoStorage = localStorage.getItem('repos');
+
+    if (repoStorage) {
+      setRepositories(JSON.parse(repoStorage));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('repos', JSON.stringify(repositories));
+  }, [repositories]);
 
   const handleSubmit = useCallback(
     (event) => {
@@ -14,8 +27,15 @@ export default function Main() {
 
       async function submit() {
         setLoading(true);
+        setAlert(null);
         try {
+          if (newRepo === '') throw new Error('Digite o nome do repositório');
+
           const response = await api.get(`/repos/${newRepo}`);
+
+          const hasRepo = repositories.find((repo) => repo.name === newRepo);
+
+          if (hasRepo) throw new Error('Repositório já existe');
 
           const data = {
             name: response.data.full_name
@@ -24,6 +44,7 @@ export default function Main() {
           setRepositories([...repositories, data]);
           setNewRepo('');
         } catch (error) {
+          setAlert(true);
           console.log(error);
         } finally {
           setLoading(false);
@@ -37,6 +58,7 @@ export default function Main() {
 
   function handleInputChange(event) {
     setNewRepo(event.target.value);
+    setAlert(null);
   }
 
   const handleDelete = useCallback(
@@ -57,7 +79,7 @@ export default function Main() {
         Meus Repositórios
       </h1>
 
-      <Form onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit} error={alert}>
         <input
           type='text'
           placeholder='Adicionar Repositórios'
