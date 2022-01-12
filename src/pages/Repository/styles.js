@@ -1,5 +1,5 @@
-import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 
 export const Loading = styled.div`
   color: #fff;
@@ -123,6 +123,23 @@ export const PageActions = styled.div`
     &:disabled {
       cursor: not-allowed;
       opacity: 0.5;
+    }
+  }
+`;
+
+export const FilterList = styled.div`
+  margin: 15px 90;
+
+  button {
+    outline: 0;
+    border: 0;
+    padding: 8px;
+    border-radius: 4px;
+    margin: 0 3px;
+
+    &:nth-child(${(props) => props.active + 1}) {
+      background: #282a36;
+      color: #fff;
     }
   }
 `;

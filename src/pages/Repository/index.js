@@ -5,6 +5,7 @@ import api from '../../services/api';
 import {
   BackButton,
   Container,
+  FilterList,
   IssuesList,
   Loading,
   Owner,
@@ -16,6 +17,24 @@ export default function Repository() {
   const [issues, setIssues] = useState([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
+  const [filters, setFilters] = useState([
+    {
+      state: 'all',
+      label: 'Todas',
+      active: true
+    },
+    {
+      state: 'open',
+      label: 'Abertas',
+      active: false
+    },
+    {
+      state: 'closed',
+      label: 'Fechadas',
+      active: false
+    }
+  ]);
+  const [filterIndex, setFilterIndex] = useState(0);
 
   const { repository } = useParams();
 
@@ -25,7 +44,7 @@ export default function Repository() {
         api.get(`/repos/${repository}`),
         api.get(`/repos/${repository}/issues`, {
           params: {
-            state: 'open',
+            state: filters[filterIndex].state,
             per_page: 5,
             page
           }
@@ -38,10 +57,14 @@ export default function Repository() {
     }
 
     load();
-  }, [page, repository]);
+  }, [filterIndex, filters, page, repository]);
 
   function handlePage(action) {
     setPage(action === 'back' ? page - 1 : page + 1);
+  }
+
+  function handleFilter(index) {
+    setFilterIndex(index);
   }
 
   if (loading) {
@@ -63,6 +86,18 @@ export default function Repository() {
         <h1>{repo.name}</h1>
         <p>{repo.description}</p>
       </Owner>
+
+      <FilterList active={filterIndex}>
+        {filters.map((filter, index) => (
+          <button
+            type='button'
+            key={filter.label}
+            onClick={() => handleFilter(index)}
+          >
+            {filter.label}
+          </button>
+        ))}
+      </FilterList>
 
       <IssuesList>
         {issues.map((issue) => (

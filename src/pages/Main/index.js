@@ -1,8 +1,8 @@
-import { Container, Form, SubmitButton, List, DeleteButton } from './styles';
-import { FaGithub, FaPlus, FaSpinner, FaBars, FaTrash } from 'react-icons/fa';
 import { useCallback, useEffect, useState } from 'react';
-import api from '../../services/api';
+import { FaBars, FaGithub, FaPlus, FaSpinner, FaTrash } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import api from '../../services/api';
+import { Container, DeleteButton, Form, List, SubmitButton } from './styles';
 
 export default function Main() {
   const [newRepo, setNewRepo] = useState('');
